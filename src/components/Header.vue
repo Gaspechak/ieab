@@ -1,6 +1,5 @@
 <template lang="html">
   <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
-    <div class="container">
       <a class="navbar-brand" href="#">IEAB</a>
 
       <div class="collapse navbar-collapse" id="navbarText">
@@ -42,7 +41,6 @@
           </div>
         </div>
       </div>
-    </div>
   </nav>
 </template>
 
