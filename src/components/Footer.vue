@@ -1,6 +1,8 @@
 <template lang="html">
   <div class="container">
-    <h4>Eventos</h4>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+
+    </nav>
   </div>
 </template>
 
@@ -11,4 +13,5 @@ export default {
 </script>
 
 <style lang="css">
+
 </style>
