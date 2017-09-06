@@ -1,6 +1,6 @@
 <template lang="html">
   <div>
-    <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+    <nav class="navbar navbar-footer navbar-dark bg-dark navbar-expand-lg">
 
     </nav>
   </div>
@@ -12,6 +12,11 @@ export default {
 }
 </script>
 
-<style lang="css">
-
+<style scoped>
+.navbar-footer {
+min-height: 50px;
+position: fixed;
+bottom: 0;
+width: 100%;
+}
 </style>
