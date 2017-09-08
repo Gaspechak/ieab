@@ -1,9 +1,9 @@
 <template lang="html">
-  <div>
-    <nav class="navbar navbar-footer navbar-dark bg-dark navbar-expand-lg">
-
-    </nav>
-  </div>
+  <nav class="navbar navbar-footer navbar-dark bg-dark" role="navigation">
+    <div class="container">
+    <h5 style="color: #FFF" > © Todos os direitos reservados Bilulu</h5>
+    </div>
+  </nav>
 </template>
 
 <script>
@@ -14,9 +14,10 @@ export default {
 
 <style scoped>
 .navbar-footer {
-min-height: 50px;
-position: fixed;
-bottom: 0;
-width: 100%;
+  position: fixed;
+  margin-top: 10px; /* negative value of footer height */
+  height: 70px;
+  width: 100%;
+  bottom: 0;
 }
 </style>
