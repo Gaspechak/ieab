@@ -21,7 +21,6 @@
           <div class="card-body">
             <h4 class="card-title">Poxoréu - MT</h4>
             <p class="card-text">Ao fundo um cartão postal de nossa cidade Morro da Mesa.</p>
-
           </div>
         </div>
       </div>
