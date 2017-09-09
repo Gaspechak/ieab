@@ -15,10 +15,11 @@ export default {
 
 <style scoped>
 .footer { 
-  position: fixed;
+  /*position: fixed;*/
   bottom: 0;  
-  width: 100%;
-  height: 70px;
+  width: 100%;  
   background-color: #343a40; 
+  font-family: sans-serif;
+  padding-bottom: 6px;
 }
 </style>

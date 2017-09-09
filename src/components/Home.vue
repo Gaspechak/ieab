@@ -49,11 +49,9 @@ export default {
 
 .card {
   margin: 0 auto;
-  /* Added */
   float: none;
-  /* Added */
   margin-bottom: 10px;
-  /* Added */
+  font-family: sans-serif;
 }
 
 .card-img-top {
