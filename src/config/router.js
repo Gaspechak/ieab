@@ -7,7 +7,7 @@ import firebase from 'firebase'
 
 Vue.use(Router)
 
-const routerInstance = new Router({
+const routerInstance = new Router({ 
   routes: [{
     path: '/',
     name: "home",
@@ -18,7 +18,6 @@ const routerInstance = new Router({
     component: Events
   }]
 })
-
 
 routerInstance.beforeEach((to, from, next) => {
   const unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
