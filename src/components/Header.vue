@@ -11,14 +11,14 @@
           <router-link class="nav-link" to="/">Página Inicial</router-link>
         </li>
         <li class="nav-item" @click="selectMenuItem('events')" v-bind:class="{ active: activeMenuItem === 'events'}" v-show="hidden.logout">
-          <router-link class="nav-link" to="eventos">Eventos</router-link>
+          <router-link class="nav-link" to="/eventos">Eventos</router-link>
         </li>
       </ul>
       <span class="navbar-text" v-show="hidden.logout" style="margin-right: 15px; cursor: default;">{{useremail}}</span>
-      <form class="form-inline">
+      <div class="form-inline">
         <button class="btn btn-success" v-show="hidden.login" data-toggle="modal" data-target="#modal">Entrar</button>
         <button class="btn btn-danger" v-on:click="OnClickLogout" v-show="hidden.logout">Sair</button>
-      </form>
+      </div>
     </div>
   </nav>
 
