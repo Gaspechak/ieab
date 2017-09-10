@@ -22,5 +22,7 @@ export default {
 </script>
 
 <style>
-
+#routes {
+  padding-bottom: 70px;
+}
 </style>
