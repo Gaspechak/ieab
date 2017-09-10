@@ -4,19 +4,16 @@
     <div id="routes">
       <router-view></router-view>
     </div>
-    <main-footer></main-footer>
   </div>
 </template>
 
 <script>
 import Header from '../components/Header'
-import Footer from '../components/Footer'
 
 export default {
   name: 'app',
   components: {
-    "main-header": Header,
-    "main-footer": Footer
+    "main-header": Header 
   }
 }
 </script>
@@ -24,5 +21,6 @@ export default {
 <style>
 #routes {
   padding-bottom: 70px;
+  padding-top: 30px;
 }
 </style>

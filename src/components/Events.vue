@@ -13,7 +13,7 @@
       </div> 
     </div>
 
-    <form v-show="!inscrever" style="margin-top: 10px;">
+    <form v-show="!inscrever">
       <div class="form-group" >
         <label for="lbl-email">E-mail do usuário</label>
         <input class="form-control" id="txt-email" autocomplete='off'>        
@@ -98,8 +98,7 @@ export default {
 </script>
 
 <style lang="css">
-.card {
-  margin-top: 10px;
+.card { 
   width: 100%;
 }
 
