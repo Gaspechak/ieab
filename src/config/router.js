@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Auth from '@/components/Auth'
 import Home from '@/components/Home'
 import Events from '@/components/Events'
 
@@ -7,7 +8,8 @@ import firebase from 'firebase'
 
 Vue.use(Router)
 
-const routerInstance = new Router({ 
+const routerInstance = new Router({
+  mode: 'history',
   routes: [{
     path: '/',
     name: "home",
@@ -16,6 +18,10 @@ const routerInstance = new Router({
     path: '/eventos',
     name: "events",
     component: Events
+  }, {
+    path: '/login',
+    name: "login",
+    component: Auth
   }]
 })
 
