@@ -28,9 +28,9 @@ const routerInstance = new Router({
 routerInstance.beforeEach((to, from, next) => {
   const unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
     if (to.path != '/' && !user) {
+      to.path == '/login' ? next() : next('/')
+    } else if (to.path == '/login' && user) {
       next('/')
-    } else if (to.path != '/' && user) {
-      next()
     } else {
       next()
     }
