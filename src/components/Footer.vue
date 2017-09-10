@@ -1,9 +1,10 @@
 <template lang="html">
-  <nav class="navbar navbar-footer navbar-dark bg-dark" role="navigation">
-    <div class="container">
-    <h5 style="color: #FFF" > © Todos os direitos reservados Bilulu</h5>
-    </div>
-  </nav>
+ <footer class="footer">
+      <div class="container">
+        <h5 style="color: white; padding-top: 10px">Igreja Evangélica Avivamento Bíblico</h5>
+        <h6 style="color: white">Desenvolvido por Matheus Gaspechak / Sergio Dovorak</h6>
+      </div>
+  </footer>
 </template>
 
 <script>
@@ -13,11 +14,12 @@ export default {
 </script>
 
 <style scoped>
-.navbar-footer {
-  position: fixed;
-  margin-top: 10px; /* negative value of footer height */
-  height: 70px;
-  width: 100%;
-  bottom: 0;
+.footer { 
+  /*position: fixed;*/
+  bottom: 0;  
+  width: 100%;  
+  background-color: #343a40; 
+  font-family: sans-serif;
+  padding-bottom: 6px;
 }
 </style>
