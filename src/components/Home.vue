@@ -43,7 +43,7 @@ export default {
 }
 
 #banner {
-  padding: 30px;
+  padding-bottom: 30px;
 }
 
 .card {
