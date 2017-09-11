@@ -16,38 +16,11 @@
       </ul>
       <span class="navbar-text" v-show="hidden.logout" style="margin-right: 15px; cursor: default;">{{useremail}}</span>
       <div class="form-inline">
-        <button class="btn btn-success" v-show="hidden.login" data-toggle="modal" data-target="#modal">Entrar</button>
-        <button class="btn btn-danger" v-on:click="OnClickLogout" v-show="hidden.logout">Sair</button>
+        <button class="btn btn-success" @click="OnClickLogin" v-show="hidden.login">Entrar / Cadastrar-se</button>
+        <button class="btn btn-danger" @click="OnClickLogout" v-show="hidden.logout">Sair</button>
       </div>
     </div>
   </nav>
-
-  <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Fazer login</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="exampleInputEmail1">Endereço de E-mail</label>
-            <input v-model="user.email" type="email" class="form-control" placeholder="examplo@dominio.com">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Senha</label>
-            <input v-model="user.pwd" type="password" class="form-control" placeholder="••••••••••••••">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button v-on:click="OnClickLogin" type="button" class="btn btn-primary">Entrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 </template>
 
@@ -72,6 +45,9 @@ export default {
   },
   methods: {
     OnClickLogin() {
+      this.$router.push('/login')
+      this.hidden.login = false
+      /*
       let self = this;
       var router = this.$router
       firebase.auth().signInWithEmailAndPassword(this.user.email, this.user.pwd).then(function(user) {
@@ -86,6 +62,7 @@ export default {
         }
         $('#modal').modal('hide')
       });
+      */
     },
     OnClickLogout() {
       firebase.auth().signOut()
@@ -93,7 +70,19 @@ export default {
       this.$router.replace('/')
     },
     selectMenuItem(item) {
+      var self = this;
       this.activeMenuItem = item;
+      const unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
+        if (user != null) {
+          self.hidden.login = false
+          self.hidden.logout = true
+          self.useremail = user.email
+        } else {
+          self.hidden.login = true
+          self.hidden.logout = false
+        }
+        unsubscribe()
+      });
     }
   },
   created: function() {
@@ -107,7 +96,6 @@ export default {
         self.hidden.login = true
         self.hidden.logout = false
       }
-      console.log("x")
       //unsubscribe()
     });
   }
