@@ -20,7 +20,6 @@
          <button id="btn-inscrever" type="button" class="btn btn-primary float-right"  data-toggle="modal" data-target="#confirmaInscricao">Inscrever-se</button> 
       </div> 
     </div>
-
     <!-- Modal -->
     <div class="modal fade" id="confirmaInscricao" tabindex="-1" role="dialog" aria-labelledby="confirmaInscricaoLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -40,11 +39,7 @@
           </div>
         </div>
       </div>
-    </div>
-     
-
-
-
+    </div>  
   </div>
 </template>
 

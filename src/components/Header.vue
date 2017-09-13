@@ -13,6 +13,9 @@
         <li class="nav-item" @click="selectMenuItem('events')" v-bind:class="{ active: activeMenuItem === 'events'}" v-show="hidden.logout">
           <router-link class="nav-link" to="/eventos">Eventos</router-link>
         </li>
+        <li class="nav-item" @click="selectMenuItem('about')" v-bind:class="{ active: activeMenuItem === 'about'}">
+          <router-link class="nav-link" to="/sobre">Sobre</router-link>
+        </li>
       </ul>
       <span class="navbar-text" v-show="hidden.logout" style="margin-right: 15px; cursor: default;">{{useremail}}</span>
       <div class="form-inline">
@@ -70,7 +73,7 @@ export default {
       this.$router.replace('/')
     },
     selectMenuItem(item) {
-      var self = this;
+      var self = this;  
       this.activeMenuItem = item;
       const unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
         if (user != null) {
