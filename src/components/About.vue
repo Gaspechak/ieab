@@ -11,7 +11,7 @@
             </div>
         <div class="card-body"> 
             <h4 class="text-left">Contatos</h4>  
-            <h6 class="text-left">WhatsApp: (66) 9 9 9939-4679</h6>
+            <h6 class="text-left">E-mail: mathgaspechak@outlook.com</h6>
             <h6 class="text-left">Site: www.gaspechak.com</h6>          
         </div>
         </div>
@@ -23,7 +23,7 @@
             </div>
             <div class="card-body">           
             <h4 class="text-left">Contatos</h4>  
-            <h6 class="text-left">WhatsApp: (66) 9 9630-2192</h6>
+            <h6 class="text-left">E-mail: xdovorak@outlook.com.br</h6>
             <h6 class="text-left">Site: www.xdovorak.com</h6>          
         </div>
         </div>
