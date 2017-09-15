@@ -1,20 +1,11 @@
 <template lang="html">
   <div class="container">
-
     <div class="card"> 
         <div class="card-header">        
-            <h5 style="margin-top: 10px;">Encontro Setorial de Jovens 3ª Edição</h5>
+            <h5 style="margin-top: 10px;">TÍTULO AQUI</h5>
         </div>  
       <ul class="list-group list-group-flush">
-          <li class="list-group-item" style="text-align: justify;">O nosso 3° Setorial vem aí! Se prepare pra passar um final de semana 
-            intenso. Acontecerá em Poxoréu/MT nos dias 17,18,19 de Novembro e está cheio de novidades que 
-            você vai curtir muito. No ano de 2015, em Várzea Grande/MT a Igreja Avivamento Bíblico deu 
-            início a mais um projeto ousado, reunimos as nossas igrejas do Campo de Rondonópolis, Poxoréu, 
-            Várzea Grande, Cuiabá e Sinop, no ano de 2016 a igreja sede do evento foi Rondonópolis, 
-            dando sequência a esse projeto direcionado por Deus. Em 2017 o Campo de Poxoréu, terá o 
-            privilégio de sediar a 3° edição do Encontro Setorial de Jovens e Teens, venha conosco fazer 
-            parte dessa festa de adoração e celebração ao nosso Deus, serão dias impactantes, onde iremos 
-            abordar o tema "Nossa Missão".</li>         
+          <li class="list-group-item" style="text-align: justify;">DESCRIÇÃO AQUI</li>         
       </ul>    
       <div class="card-body">
          <button id="btn-inscrever" type="button" class="btn btn-primary float-right"  data-toggle="modal" data-target="#confirmaInscricao">Inscrever-se</button> 

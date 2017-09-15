@@ -125,14 +125,15 @@ export default {
     Entrar() {
       let self = this;
       var router = self.$router
-      if (self.cadastro == false) {
 
+      self.usuario.email = this.StringNotNull(self.usuario.email);
+      self.usuario.senha = this.StringNotNull(self.usuario.senha);
+
+      if (self.cadastro == false) {
         self.loading = true;
-        firebase.auth().signInWithEmailAndPassword(self.usuario.email, self.usuario.senha).then(function(user) {  
-          
-          alert(firebase.database().ref().push().key)
+        firebase.auth().signInWithEmailAndPassword(self.usuario.email, self.usuario.senha).then(function(user) {
           if (user) {
-            console.log(user)            
+            console.log(user)
           }
           self.error = null
           self.loading = false;
@@ -143,7 +144,8 @@ export default {
           }
           self.loading = false;
         });
-      } else {
+      } else if (this.ValidaUsuario()) {
+        alert("Iniciando cadastro.")
         self.loading = true;
         firebase.auth().createUserWithEmailAndPassword(self.usuario.email, self.usuario.senha).then(function(user) {
           firebase.database().ref("users").child(user.uid).set(self.usuario).then(function(users) {
@@ -162,6 +164,17 @@ export default {
         });
       }
     },
+    ValidaUsuario() {
+      return true;
+    },
+    StringNotNull(value) {
+      if (value != null && value != undefined) {
+        return value;
+      }
+      else {
+        return "";
+      }
+    }
   }
 }
 </script>
