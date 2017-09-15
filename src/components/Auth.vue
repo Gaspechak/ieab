@@ -91,7 +91,7 @@
             <div class="form-group">
               <label>Senha</label>
               <input v-model="usuario.senha" type="password" class="form-control" placeholder="•••••••••••••">
-            </div>
+            </div>             
             <div>
               <button class="btn btn-primary" @click="cadastro = true" v-show="!cadastro">Cadastre-se</button>
               <button class="btn btn-secondary" @click="cadastro = false" v-show="cadastro">Cancelar</button>
@@ -126,10 +126,13 @@ export default {
       let self = this;
       var router = self.$router
       if (self.cadastro == false) {
+
         self.loading = true;
-        firebase.auth().signInWithEmailAndPassword(self.usuario.email, self.usuario.senha).then(function(user) {
+        firebase.auth().signInWithEmailAndPassword(self.usuario.email, self.usuario.senha).then(function(user) {  
+          
+          alert(firebase.database().ref().push().key)
           if (user) {
-            console.log(user)
+            console.log(user)            
           }
           self.error = null
           self.loading = false;
@@ -141,7 +144,22 @@ export default {
           self.loading = false;
         });
       } else {
-        //Fazer cadastro do usuário
+        self.loading = true;
+        firebase.auth().createUserWithEmailAndPassword(self.usuario.email, self.usuario.senha).then(function(user) {
+          firebase.database().ref("users").child(user.uid).set(self.usuario).then(function(users) {
+            if (user) {
+              console.log(user)
+            }
+            self.error = null
+            self.loading = false;
+            router.replace("/")
+          });
+        }).catch(function(err) {
+          if (err) {
+            self.error = err.message;
+          }
+          self.loading = false;
+        });
       }
     },
   }
@@ -149,4 +167,5 @@ export default {
 </script>
 
 <style lang="css">
+
 </style>

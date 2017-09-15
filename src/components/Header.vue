@@ -79,7 +79,7 @@ export default {
         if (user != null) {
           self.hidden.login = false
           self.hidden.logout = true
-          self.useremail = user.email
+          self.useremail = user.email          
         } else {
           self.hidden.login = true
           self.hidden.logout = false
