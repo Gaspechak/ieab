@@ -4,6 +4,7 @@ import Auth from '@/components/Auth'
 import Home from '@/components/Home'
 import Events from '@/components/Events'
 import About from '@/components/About'
+import Manager from '@/components/Manager'
 
 import firebase from 'firebase'
 
@@ -28,6 +29,11 @@ const routerInstance = new Router({
     path: '/sobre',
     name: "about",
     component: About
+  },
+  {
+    path: '/gerenciar',
+    name: "manager",
+    component: Manager
   }]
 })
 
