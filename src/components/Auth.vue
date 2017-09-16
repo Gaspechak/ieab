@@ -32,7 +32,7 @@
             <div class="row" v-show="cadastro">
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">                 
-                  <label>Campo *</label>
+                  <label>Campo</label>
                   <input v-model="usuario.campo" type="text" maxlength="100" class="form-control" placeholder="">
                 </div>
               </div>
@@ -213,74 +213,65 @@ export default {
         retorno = false;
       }
 
-      if (this.usuario.campo == null || this.usuario.campo == undefined) {
-        this.error += "* Campo não informado. ";
-        retorno = false;
-      }
-      else if (this.usuario.campo.length < 5) {
-        this.error += "* O campo deve ter 5 caracteres ou mais. ";
-        retorno = false;
-      }
-
       if (isNaN(new Date(this.usuario.nascimento).valueOf())) {
-        this.error += "* Data de nascimento inválida. ";
+        this.error = this.StringNotNull(this.error) + "* Data de nascimento inválida. ";
         retorno = false;
       }
 
       if (this.usuario.logradouro == null || this.usuario.logradouro == undefined || this.usuario.logradouro == "") {
-        this.error += "* Logradouro não informado. ";
+        this.error = this.StringNotNull(this.error) + "* Logradouro não informado. ";
         retorno = false;
       }
 
       if (this.usuario.numero == null || this.usuario.numero == undefined || this.usuario.numero == "") {
-        this.error += "* Número não informado. ";
+        this.error = this.StringNotNull(this.error) + "* Número não informado. ";
         retorno = false;
       }
 
       if (this.usuario.bairro == null || this.usuario.bairro == undefined || this.usuario.bairro == "") {
-        this.error += "* Bairro não informado. ";
+        this.error = this.StringNotNull(this.error) + "* Bairro não informado. ";
         retorno = false;
       }
 
       if (this.usuario.cep == null || this.usuario.cep == undefined || this.usuario.cep == "") {
-        this.error += "* CEP não informado. ";
+        this.error = this.StringNotNull(this.error) + "* CEP não informado. ";
         retorno = false;
       }
 
       if (this.usuario.cidade == null || this.usuario.cidade == undefined || this.usuario.cidade == "") {
-        this.error += "* Cidade não informada. ";
+        this.error = this.StringNotNull(this.error) + "* Cidade não informada. ";
         retorno = false;
       }
 
       if (this.usuario.uf == null || this.usuario.uf == undefined) {
-        this.error += "* UF não informada. ";
+        this.error = this.StringNotNull(this.error) + "* UF não informada. ";
         retorno = false;
       }
       else if ("AC-AL-AP-AM-BA-CE-DF-ES-GO-MA-MT-MS-MG-PA-PB-PR-PE-PI-RJ-RN-RS-RO-RR-SC-SP-SE-TO".indexOf(this.usuario.uf) == -1) {
-        this.error += "* UF inválida. ";
+        this.error = this.StringNotNull(this.error) + "* UF inválida. ";
         retorno = false;
       }
 
       if (this.usuario.telefone == null || this.usuario.telefone == undefined) {
-        this.error += "* Telefone/Celular não informada. ";
+        this.error = this.StringNotNull(this.error) + "* Telefone/Celular não informada. ";
         retorno = false;
       }
       else if (this.usuario.telefone.length < 8) {
-        this.error += "* A Telefone/Celular deve ter 8 caracteres ou mais.";
+        this.error = this.StringNotNull(this.error) + "* A Telefone/Celular deve ter 8 caracteres ou mais.";
         retorno = false;
       }
 
       if (this.usuario.email == null || this.usuario.email == undefined || this.usuario.email == "") {
-        this.error += "* E-mail não informado. ";
+        this.error = this.StringNotNull(this.error) + "* E-mail não informado. ";
         retorno = false;
       }
 
       if (this.usuario.senha == null || this.usuario.senha == undefined) {
-        this.error += "* Senha não informada. ";
+        this.error = this.StringNotNull(this.error) + "* Senha não informada. ";
         retorno = false;
       }
       else if (this.usuario.senha.length < 6) {
-        this.error += "* A senha deve ter 6 caracteres ou mais.";
+        this.error = this.StringNotNull(this.error) + "* A senha deve ter 6 caracteres ou mais.";
         retorno = false;
       }
 
