@@ -5,10 +5,10 @@
             <h5 style="margin-top: 10px;">TÍTULO AQUI</h5>
         </div>  
       <ul class="list-group list-group-flush">
-          <li class="list-group-item" style="text-align: justify;">DESCRIÇÃO AQUI</li>         
+        <li class="list-group-item" style="text-align: justify;">DESCRIÇÃO AQUI</li>         
       </ul>    
       <div class="card-body">
-         <button id="btn-inscrever" type="button" class="btn btn-primary float-right"  data-toggle="modal" data-target="#confirmaInscricao">Inscrever-se</button> 
+        <button id="btn-inscrever" type="button" class="btn btn-primary float-right"  data-toggle="modal" data-target="#confirmaInscricao">Inscrever-se</button>          
       </div> 
     </div>
     <!-- Modal -->
@@ -35,25 +35,59 @@
 </template>
 
 <script>
+import firebase from '../config/firebase'
 
 export default {
   name: "Eventos",
   data() {
     return {
-      inscrever: true,
+      events: []
     }
   },
   methods: {
-    inscrevershow: function() {
-      this.inscrever = !this.inscrever
+    EventoExemplo() {
+      var ref = firebase.database().ref('events').on("value", function(snapshot) {
+        snapshot.forEach(function(snapshotChild) {
+          alert(snapshotChild.child('titulo').val());
+          alert(snapshotChild.child('descricao').val());
+
+          var titulo = snapshotChild.child('titulo').val();
+          var descricao = snapshotChild.child('descricao').val();
+
+          alert(titulo);
+          alert(descricao);
+
+          var myArray = [{}]
+          myArray[0].XXX = "xxx";
+          myArray[0].XXXX = "xxxx";
+          alert(myArray[0].XXX);
+          alert(myArray[0].XXXX);
+
+          var myArray2 = []
+          var evento = {
+            myTitulo: "myTitulo",
+            myDescricao: "myDescricao"
+          }
+          myArray2.push(evento);
+          alert(myArray2[0].myTitulo);
+          alert(myArray2[0].myDescricao);
+
+
+          myArray2.forEach(function(entry) {
+             alert("forEach " + entry.myTitulo);
+              alert("forEach " + entry.myDescricao);
+          }); 
+        });
+      }, function(error) {
+        alert("Error: " + error.code);
+      });
     }
   }
 }
-
 </script>
 
 <style lang="css">
-.card { 
+.card {
   width: 100%;
 }
 
@@ -67,5 +101,4 @@ export default {
 #titulo {
   align-self: center;
 }
-
 </style>
