@@ -44,9 +44,9 @@ export default {
       events: []
     }
   },
-  methods: {
-    EventoExemplo() {
-      var ref = firebase.database().ref('events').on("value", function(snapshot) {
+  methods: {    
+    EventoExemplo() {      
+        firebase.database().ref('events').on("value", function(snapshot) {
         snapshot.forEach(function(snapshotChild) {
           alert(snapshotChild.child('titulo').val());
           alert(snapshotChild.child('descricao').val());

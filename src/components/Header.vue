@@ -16,6 +16,9 @@
         <li class="nav-item" @click="selectMenuItem('about')" v-bind:class="{ active: activeMenuItem === 'about'}">
           <router-link class="nav-link" to="/sobre">Sobre</router-link>
         </li>
+        <li class="nav-item" @click="selectMenuItem('manager')" v-bind:class="{ active: activeMenuItem === 'manager'}" v-show="hidden.logout && hidden.admin">
+          <router-link class="nav-link" to="/gerenciar">Gerenciar</router-link>
+        </li>
       </ul>
       <span class="navbar-text" v-show="hidden.logout" style="margin-right: 15px; cursor: default;">{{useremail}}</span>
       <div class="form-inline">
@@ -43,6 +46,7 @@ export default {
       hidden: {
         login: false,
         logout: false,
+        admin: false
       }
     }
   },
@@ -73,13 +77,24 @@ export default {
       this.$router.replace('/')
     },
     selectMenuItem(item) {
-      var self = this;  
+      var self = this;
       this.activeMenuItem = item;
       const unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
         if (user != null) {
           self.hidden.login = false
           self.hidden.logout = true
-          self.useremail = user.email          
+
+          firebase.database().ref('users').child(user.uid).on("value", function(snapshot) {
+            var admin = snapshot.child("admin").val()
+            if (admin) {
+              self.hidden.admin = admin
+            }
+            else {
+              self.hidden.admin = false
+            }
+          });
+
+          self.useremail = user.email
         } else {
           self.hidden.login = true
           self.hidden.logout = false
@@ -94,6 +109,17 @@ export default {
       if (user != null) {
         self.hidden.login = false
         self.hidden.logout = true
+
+        firebase.database().ref('users').child(user.uid).on("value", function(snapshot) {
+          var admin = snapshot.child("admin").val()
+          if (admin) {
+            self.hidden.admin = admin
+          }
+          else {
+            self.hidden.admin = false
+          }
+        });
+
         self.useremail = user.email
       } else {
         self.hidden.login = true
