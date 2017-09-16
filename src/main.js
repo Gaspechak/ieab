@@ -16,9 +16,13 @@ new Vue({
     App
   },
   beforeCreate: function() {
+    var self = this
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-        this.user = user
+        self.user = user
+        firebase.database().ref("users").child(user.uid).on('value', function(snapshot) {
+          self.user.customdata = snapshot.val()
+        })
       }
     }.bind(this))
   },
