@@ -8,9 +8,9 @@
           <li class="list-group-item" style="text-align: justify;">{{item.descricao}}</li>
       </ul>
       <div class="card-body">
-         <h5><span class="badge badge-secondary float-right">Inscrição pendende</span></h5>
-         <h5><span class="badge badge-success float-right">Inscrição confirmada</span></h5>
-         <button id="btn-inscrever" type="button" class="btn btn-primary float-right"  data-toggle="modal" data-target="#confirmaInscricao">Inscrever-se</button>
+         <h5><span class="badge badge-secondary float-right" v-show="getStatus(item.users) == 'pendente'">Inscrição pendende</span></h5>
+         <h5><span class="badge badge-success float-right" v-show="getStatus(item.users) == 'inscrito'">Inscrição confirmada</span></h5>
+         <button v-show="getStatus(item.users) == 'disponivel'" id="btn-inscrever" type="button" class="btn btn-primary float-right"  data-toggle="modal" data-target="#confirmaInscricao">Inscrever-se</button>
       </div>
       <!-- Modal -->
       <div class="modal fade" id="confirmaInscricao" tabindex="-1" role="dialog" aria-labelledby="confirmaInscricaoLabel" aria-hidden="true">
@@ -47,9 +47,6 @@ export default {
       inscrever: true,
     }
   },
-  mounted() {
-    console.log(this.$root.user.customdata);
-  },
   firebase: {
     events: db.ref('events')
   },
@@ -60,6 +57,19 @@ export default {
     confirm: function(eventId) {
       const userUid = this.$root.user.uid
       this.$firebaseRefs.events.child(eventId).child("users").child(userUid).set(false)
+    },
+    getStatus: function(users) {
+      const user = this.$root.user
+      switch (users[user.uid]) {
+        case undefined:
+          return 'disponivel'
+        case true:
+          return 'inscrito'
+        case false:
+          return 'pendente'
+        default:
+          return 'disponivel'
+      }
     }
   }
 }
