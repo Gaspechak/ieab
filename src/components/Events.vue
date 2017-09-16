@@ -8,6 +8,8 @@
           <li class="list-group-item" style="text-align: justify;">{{item.descricao}}</li>
       </ul>
       <div class="card-body">
+         <h5><span class="badge badge-secondary float-right">Inscrição pendende</span></h5>
+         <h5><span class="badge badge-success float-right">Inscrição confirmada</span></h5>
          <button id="btn-inscrever" type="button" class="btn btn-primary float-right"  data-toggle="modal" data-target="#confirmaInscricao">Inscrever-se</button>
       </div>
       <!-- Modal -->
