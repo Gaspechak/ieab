@@ -2,7 +2,7 @@
 <div class="container">
   <div class="login-content">
     <div class="row">
-      <div class="col-sm-12 col-md-6 d-none d-sm-block" style="margin-top:15px;">
+      <div class="col-md-5 d-none d-lg-block" style="margin-top:15px;">
         <div class="card">
           <div class="card-body">
             <img src="static/img/banner.png" class="img-fluid">
@@ -14,21 +14,23 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-12 col-md-6" style="margin-top:15px;">
+      <div class="col" style="margin-top:15px;">
         <div class="card">
           <div class="card-body" v-show="!loading">
             <div class="alert alert-danger" role="alert" v-show="error != null && error != undefined">
-              {{ error }}
-            </div>
-            <div class="form-group" v-show="cadastro">
+              <strong>Houve algum erro:</strong>
+              <br>       
+              {{ error }}  
+            </div>           
+            <div class="form-group" v-show="cadastro">           
               <label>Nome completo</label>
-              <input v-model="usuario.nome" type="text" class="form-control" placeholder="ex: Maria Aparecida de Souza">
+              <input v-model="usuario.nome" type="text" class="form-control" placeholder="ex: Maria Aparecida de Souza">             
             </div>
             <div class="row" v-show="cadastro">
               <div class="col-sm-12 col-md-6">
-                <div class="form-group">
-                  <label>CPF</label>
-                  <input v-model="usuario.cpf" type="text" class="form-control" placeholder="ex: 000.000.000-00">
+                <div class="form-group">                 
+                  <label>Campo</label>
+                  <input v-model="usuario.campo" type="text" class="form-control" placeholder="">
                 </div>
               </div>
               <div class="col-sm-12 col-md-6">
@@ -93,8 +95,8 @@
               <input v-model="usuario.senha" type="password" class="form-control" placeholder="•••••••••••••">
             </div>             
             <div>
-              <button class="btn btn-primary" @click="cadastro = true" v-show="!cadastro">Cadastre-se</button>
-              <button class="btn btn-secondary" @click="cadastro = false" v-show="cadastro">Cancelar</button>
+              <button class="btn btn-primary" @click="cadastro = true; error = null;" v-show="!cadastro">Cadastre-se</button>
+              <button class="btn btn-secondary" @click="cadastro = false; error = null;" v-show="cadastro">Cancelar</button>
               <button class="btn btn-success float-right" @click="Entrar">Entrar</button>
             </div>
           </div>
@@ -145,7 +147,6 @@ export default {
           self.loading = false;
         });
       } else if (this.ValidaUsuario()) {
-        alert("Iniciando cadastro.")
         self.loading = true;
         firebase.auth().createUserWithEmailAndPassword(self.usuario.email, self.usuario.senha).then(function(user) {
           firebase.database().ref("users").child(user.uid).set(self.usuario).then(function(users) {
@@ -165,7 +166,34 @@ export default {
       }
     },
     ValidaUsuario() {
-      return true;
+      
+      var retorno = true;
+
+      if (this.usuario.nome == null || this.usuario.nome == undefined) {
+        this.error = "* Nome não informado. ";
+        retorno = false;
+      }
+      else if (this.usuario.nome.length < 8) {
+        this.error = "* Nome muito curto, informe um nome com no mínimo 8 caracteres. ";
+        retorno = false;
+      }
+
+      if (this.usuario.campo == null || this.usuario.campo == undefined) {
+        this.error += "* Campo não informado. ";
+        retorno = false;
+      }
+      else if (this.usuario.campo.length < 8) {
+        this.error += "* Campo muito curto, informe um nome de campo com no mínimo 8 caracteres. ";
+        retorno = false;
+      }
+  
+      if(isNaN(new Date(this.usuario.nascimento).valueOf()))
+      {
+          this.error += "* Data de nascimento inválida. ";
+          retorno = false;
+      }         
+
+      return retorno;
     },
     StringNotNull(value) {
       if (value != null && value != undefined) {
