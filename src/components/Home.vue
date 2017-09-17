@@ -10,8 +10,8 @@
         <div class="card">
           <img class="card-img-top" src="static/img/igreja.jpg">
           <div class="card-body">
-            <h4 class="card-title">Nossa sede em Poxoréu</h4>
-            <p class="card-text">Sejam bem-vindos a nossa igreja em Poxoréu.</p>
+            <h4 class="card-title">Congregação Poxoréu</h4>
+            <p class="card-text">Sejam bem-vindos a nossa congregação em Poxoréu.</p>
           </div>
         </div>
       </div>
