@@ -9,7 +9,7 @@ Vue.use(VueFire)
 Vue.config.productionTip = false
 
 new Vue({
-  el: '#app',
+  el: '#app',  
   router,
   template: '<App/>',
   components: {
@@ -21,12 +21,13 @@ new Vue({
       if (user) {
         self.user = user
         firebase.database().ref("users").child(user.uid).on('value', function (snapshot) {
-          self.user.customdata = snapshot.val()             
+          self.userData = snapshot.val()         
         })
       }
     }.bind(this))
   },
-  data: {
-    user: {}
+    data: {
+     user: {},
+     userData: {}
   }
 })

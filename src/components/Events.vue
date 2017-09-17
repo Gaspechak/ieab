@@ -12,7 +12,7 @@
           <h5><span class="badge badge-warning float-right" v-show="getStatus(item.users) == 'pendente'">Inscrição pendende</span></h5>
           <h5><span class="badge badge-success float-right" v-show="getStatus(item.users) == 'inscrito'">Inscrição confirmada</span></h5>
           <button v-show="getStatus(item.users) == 'disponivel'" id="btn-inscrever" type="button" class="btn btn-primary float-right"  data-toggle="modal" data-target="#confirmaInscricao">Inscrever-se</button>          
-          <button v-show="true" style="margin-right: 10px; margin-top: -10px;" id="btn-gerenciar" type="button" class="btn btn-warning float-left" @click="gerenciarEvento(item['.key'])">Gerenciar Evento</button>
+          <button v-show="getGerenciar() == true" style="margin-right: 10px; margin-top: -10px;" id="btn-gerenciar" type="button" class="btn btn-warning float-left" @click="gerenciarEvento(item['.key'])">Gerenciar Evento</button>
           <button v-show="getStatus(item.users) == 'inscrito'" style="margin-top: -10px;" type="button" class="btn btn-success float-left" @click="imprimirComprovante = true">Imprimir confirmação</button>
         </div>
         <!-- Modal -->
@@ -40,15 +40,15 @@
     <div v-show="imprimirComprovante" class="container text-center">   
       <div class="card">
         <h4><b>CHICK-IN</b></h4>    
-        <h4 style="margin-top: 20px;"><b>NOME:</b> {{this.$root.user.customdata.nome}}</h4>
-        <h4><b>CAMPO:</b> {{this.$root.user.customdata.campo}}</h4>  
-        <h4><b>TELEFONE:</b> {{this.$root.user.customdata.telefone}}</h4>
-        <h4><b>E-MAIL:</b> {{this.$root.user.customdata.email}}</h4>
-        <h4><b>LOGRADOURO:</b> {{this.$root.user.customdata.logradouro}}</h4>
-        <h4><b>NÚMERO:</b> {{this.$root.user.customdata.numero}}</h4>
-        <h4><b>BAIRRO:</b> {{this.$root.user.customdata.bairro}} - <b>CEP:</b> {{this.$root.user.customdata.cep}}</h4>    
-        <h4><b>CIDADE:</b> {{this.$root.user.customdata.cidade}} - <b>UF:</b> {{this.$root.user.customdata.uf}}</h4>        
-        <h4><b>DATA DE NASCIMENTO:</b> {{this.$root.user.customdata.nascimento}}</h4> 
+        <h4 style="margin-top: 20px;"><b>NOME:</b> {{this.$root.userData.nome}}</h4>
+        <h4><b>CAMPO:</b> {{this.$root.userData.campo}}</h4>  
+        <h4><b>TELEFONE:</b> {{this.$root.userData.telefone}}</h4>
+        <h4><b>E-MAIL:</b> {{this.$root.userData.email}}</h4>
+        <h4><b>LOGRADOURO:</b> {{this.$root.userData.logradouro}}</h4>
+        <h4><b>NÚMERO:</b> {{this.$root.userData.numero}}</h4>
+        <h4><b>BAIRRO:</b> {{this.$root.userData.bairro}} - <b>CEP:</b> {{this.$root.userData.cep}}</h4>    
+        <h4><b>CIDADE:</b> {{this.$root.userData.cidade}} - <b>UF:</b> {{this.$root.userData.uf}}</h4>        
+        <h4><b>DATA DE NASCIMENTO:</b> {{this.$root.userData.nascimento}}</h4> 
       </div> 
       <div class="text-center" style="margin-top: 30px;">
         <button type="button" class="btn btn-info" @click="imprimirComprovante = false">Voltar</button>
@@ -91,7 +91,7 @@ export default {
   data() {
     return {
       listEventos: true,
-      imprimirComprovante: false,    
+      imprimirComprovante: false,
       usersCadastrados: []
     }
   },
@@ -108,8 +108,16 @@ export default {
       this.gerenciarEvento(eventId)
     },
     printConfirmacao: function() {
-      window.print();    
-    },   
+      window.print();
+    },
+    getGerenciar: function() {
+      if (this.$root.userData != undefined && this.$root.userData.admin == true) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    },
     getStatus: function(users) {
       const user = this.$root.user
       switch (users[user.uid]) {
