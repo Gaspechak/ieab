@@ -1,7 +1,7 @@
 <template lang="html">
 <div class="header-content">
   <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
-    <a class="navbar-brand" href="#">IEAB</a>
+    <a class="navbar-brand" href="/">IEAB</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
       <span class="navbar-toggler-icon"></span>
     </button>

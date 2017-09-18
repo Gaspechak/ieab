@@ -6,14 +6,29 @@
               <h5 style="margin-top: 10px;">{{item.titulo}}</h5>          
           </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item" style="text-align: justify;">{{item.descricao}}</li>
+            <li class="list-group-item" style="text-align: justify;"><b>Descrição do evento: </b>{{item.descricao}}</li>
+        </ul>
+        <ul class="list-group list-group-flush" v-show="meiaEntrada(item.idadeMeiaEntrada)">
+            <li class="list-group-item" style="text-align: justify;"><b>Forma de Pagamento: </b>{{item.pagamentoMeiaEntrada}}</li>
+        </ul>
+        <ul class="list-group list-group-flush" v-show="!meiaEntrada(item.idadeMeiaEntrada)">
+            <li class="list-group-item" style="text-align: justify;"><b>Forma de Pagamento: </b>{{item.pagamento}}</li>
+        </ul>
+        <ul class="list-group list-group-flush">
+             <li class="list-group-item" style="text-align: justify;"><b>Contato: </b>{{item.contato}}</li>
         </ul>
         <div class="card-body">
-          <h5><span class="badge badge-warning float-right" v-show="getStatus(item.users) == 'pendente'">Inscrição pendende</span></h5>
-          <h5><span class="badge badge-success float-right" v-show="getStatus(item.users) == 'inscrito'">Inscrição confirmada</span></h5>
-          <button v-show="getStatus(item.users) == 'disponivel'" id="btn-inscrever" type="button" class="btn btn-primary float-right"  data-toggle="modal" data-target="#confirmaInscricao">Inscrever-se</button>          
-          <button v-show="getGerenciar() == true" style="margin-right: 10px; margin-top: -10px;" id="btn-gerenciar" type="button" class="btn btn-warning float-left" @click="gerenciarEvento(item['.key'])">Gerenciar Evento</button>
-          <button v-show="getStatus(item.users) == 'inscrito'" style="margin-top: -10px;" type="button" class="btn btn-success float-left" @click="imprimirComprovante = true">Imprimir confirmação</button>
+          <div class="text-center" style="margin-top: -8px;">
+            <h5><span class="badge badge-warning" v-show="getStatus(item.users) == 'pendente'">Inscrição pendende...</span></h5>
+            <h5><span class="badge badge-success" v-show="getStatus(item.users) == 'inscrito'">Inscrição confirmada</span></h5>
+            <button v-show="getStatus(item.users) == 'disponivel'" id="btn-inscrever" type="button" class="btn btn-primary"  data-toggle="modal" data-target="#confirmaInscricao">Inscrever-se</button>          
+          </div>          
+          <div class="text-center" v-show="getStatus(item.users) == 'inscrito'">
+            <button v-show="getStatus(item.users) == 'inscrito'" type="button" class="btn btn-success" @click="printEvent(item)">Imprimir confirmação</button>
+          </div>
+          <div class="text-center" style="margin-top: 8px;" v-show="getGerenciar() == true">
+            <button v-show="getGerenciar() == true" id="btn-gerenciar" type="button" class="btn btn-danger" @click="gerenciarEvento(item['.key'])">Gerenciar Evento</button>
+          </div>
         </div>
         <!-- Modal -->
         <div class="modal fade" id="confirmaInscricao" tabindex="-1" role="dialog" aria-labelledby="confirmaInscricaoLabel" aria-hidden="true">
@@ -34,49 +49,50 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </div>        
+      </div>     
     </div> 
     <div v-show="imprimirComprovante" class="container text-center">   
-      <div class="card">
-        <h4><b>CHICK-IN</b></h4>    
-        <h4 style="margin-top: 20px;"><b>NOME:</b> {{this.$root.userData.nome}}</h4>
-        <h4><b>CAMPO:</b> {{this.$root.userData.campo}}</h4>  
-        <h4><b>TELEFONE:</b> {{this.$root.userData.telefone}}</h4>
-        <h4><b>E-MAIL:</b> {{this.$root.userData.email}}</h4>
-        <h4><b>LOGRADOURO:</b> {{this.$root.userData.logradouro}}</h4>
-        <h4><b>NÚMERO:</b> {{this.$root.userData.numero}}</h4>
-        <h4><b>BAIRRO:</b> {{this.$root.userData.bairro}} - <b>CEP:</b> {{this.$root.userData.cep}}</h4>    
-        <h4><b>CIDADE:</b> {{this.$root.userData.cidade}} - <b>UF:</b> {{this.$root.userData.uf}}</h4>        
-        <h4><b>DATA DE NASCIMENTO:</b> {{this.$root.userData.nascimento}}</h4> 
-      </div> 
-      <div class="text-center" style="margin-top: 30px;">
-        <button type="button" class="btn btn-info" @click="imprimirComprovante = false">Voltar</button>
-        <button type="button" class="btn btn-success" @click="printConfirmacao()">Imprimir</button>   
-      </div>  
-    </div> 
+          <div class="card">
+            <h4 style="margin-top: 8px;"><b>CHECK-IN</b></h4>    
+            <h4 style="margin-top: 20px;"><b>NOME:</b> {{this.$root.userData.nome}}</h4>
+            <h4><b>CAMPO:</b> {{this.$root.userData.campo}}</h4>  
+            <h4><b>TELEFONE:</b> {{this.$root.userData.telefone}}</h4>
+            <h4><b>E-MAIL:</b> {{this.$root.userData.email}}</h4>         
+            <h4><b>CIDADE:</b> {{this.$root.userData.cidade}} - <b>UF:</b> {{this.$root.userData.uf}}</h4> 
+            <h4 v-show="meiaEntrada(eventPrint.idadeMeiaEntrada)"><b>ENTRADA:</b> MEIA</h4> 
+            <h4 v-show="!meiaEntrada(eventPrint.idadeMeiaEntrada)"><b>ENTRADA:</b> INTEIRA</h4> 
+          </div> 
+          <div class="text-center" style="margin-top: 30px;">
+            <button type="button" class="btn btn-info" @click="imprimirComprovante = false">Voltar</button>
+            <button type="button" class="btn btn-success" @click="printConfirmacao()">Imprimir</button>   
+          </div>  
+        </div> 
     <div v-show="!listEventos && imprimirComprovante == false" class="container">
       <div class="row">
         <button id="btn-voltaEventos" type="button" class="btn btn-warning float-left" @click="listEventos = true">Voltar</button>  
       </div>
       <div class="row" style="margin-top: 10px;"> 
-        <table id="table-Cadastrados" class="table table-striped">
-          <thead class="thead-inverse">
-            <tr>              
-              <th style="background-color: #343a40;">Nome Completo</th>
-              <th style="background-color: #343a40;">E-mail</th>
-              <th style="background-color: #343a40;">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="user in usersCadastrados">            
-              <td>{{user.nome}}</td>
-              <td>{{user.email}}</td>             
-              <button type="button" class="btn btn-danger" style="margin-top: 4px; width: 100%; right: 100%;" v-show="!user.confirmado" @click="confirmarIncricao(user.eventID, user.userID)">Confirmar Inscrição!</button>
-              <td class="alert alert-success text-center" role="alert" v-show="user.confirmado">Inscrição confirmada</td>                           
-            </tr>
-          </tbody>
-        </table>  
+        <div class="card">
+          <div class="card-header">
+            Inscritos no Evento
+          </div>
+          <div class="card-body" v-for="user in usersCadastrados">
+            <div class="card">
+              <div style="margin: 10px;">
+                <h6><b>Nome: </b> {{user.nome}}</h6>
+                <h6><b>E-mail: </b> {{user.email}}</h6> 
+                <h6><b>E-mail: </b> {{user.cidade}} <b> UF: </b> {{user.uf}}</h6> 
+                <h6><span class="badge badge-warning" v-show="!user.confirmado">Inscrição pendende...</span></h6>
+                <h6><span class="badge badge-success" v-show="user.confirmado">Inscrição confirmada</span></h6>
+                <div class="text-center">
+                  <button type="button" class="btn btn-success" v-show="!user.confirmado" @click="confirmarIncricao(user.eventID, user.userID)">Confirmar Inscrição!</button>
+                  <button type="button" class="btn btn-danger" v-show="user.confirmado" @click="cancelarIncricao(user.eventID, user.userID)">Cancelar Inscrição!</button>             
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div> 
@@ -92,7 +108,8 @@ export default {
     return {
       listEventos: true,
       imprimirComprovante: false,
-      usersCadastrados: []
+      usersCadastrados: [],
+      eventPrint: {}
     }
   },
   firebase: {
@@ -107,8 +124,20 @@ export default {
       this.$firebaseRefs.events.child(eventId).child("users").child(userId).set(true)
       this.gerenciarEvento(eventId)
     },
+    printEvent: function(itemEvent)
+    {
+      this.imprimirComprovante = true
+      this.eventPrint = itemEvent
+    },
+    cancelarIncricao: function(eventId, userId) {
+      this.$firebaseRefs.events.child(eventId).child("users").child(userId).set(false)
+      this.gerenciarEvento(eventId)
+    },
     printConfirmacao: function() {
       window.print();
+    },
+    meiaEntrada: function(idadeMeiaEntrada) {    
+      return this.$root.userData.idade <= idadeMeiaEntrada 
     },
     getGerenciar: function() {
       if (this.$root.userData != undefined && this.$root.userData.admin == true) {

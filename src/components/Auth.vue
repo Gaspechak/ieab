@@ -26,38 +26,38 @@
               <h1 style="font-size: 14px;">Campos com * são obrigatórios.</h1>                           
             </div>        
             <div class="form-group" v-show="cadastro">                         
-              <label>Nome completo *</label>          
-              <input v-model="usuario.nome" type="text" maxlength="200" class="form-control" placeholder="ex: Maria Aparecida de Souza">             
+              <label>Nome completo * </label>                
+              <input v-model="usuario.nome"  type="text" maxlength="200" class="form-control" placeholder="ex: Maria Aparecida de Souza" style="text-transform:uppercase;">             
             </div>
             <div class="row" v-show="cadastro">
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">                 
                   <label>Campo</label>
-                  <input v-model="usuario.campo" type="text" maxlength="100" class="form-control" placeholder="">
+                  <input v-model="usuario.campo" type="text" maxlength="100" class="form-control" placeholder="" style="text-transform:uppercase;">
                 </div>
               </div>
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">
-                  <label>Nascimento *</label>
-                  <input v-model="usuario.nascimento" type="date" class="form-control" placeholder="dd/mm/aaaa">
+                  <label>Idade *</label>
+                  <input v-model="usuario.idade" type="number" class="form-control" style="text-transform:uppercase;">
                 </div>
               </div>
             </div>
             <div class="form-group" v-show="cadastro">
               <label>Logradouro *</label>
-              <input v-model="usuario.logradouro" type="text" maxlength="100" class="form-control" placeholder="Nome da Avenida, Rua e etc...">
+              <input v-model="usuario.logradouro" type="text" maxlength="100" class="form-control" placeholder="Nome da Avenida, Rua e etc..." style="text-transform:uppercase;">
             </div>
             <div class="row" v-show="cadastro">
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label>Número *</label>
-                  <input v-model="usuario.numero" type="number" class="form-control">
+                  <input v-model="usuario.numero" type="number" class="form-control" style="text-transform:uppercase;">
                 </div>
               </div>
               <div class="col-sm-12 col-md-8">
                 <div class="form-group">
                   <label>Bairro *</label>
-                  <input v-model="usuario.bairro" type="text" maxlength="100" class="form-control">
+                  <input v-model="usuario.bairro" type="text" maxlength="100" class="form-control" style="text-transform:uppercase;">
                 </div>
               </div>
             </div>
@@ -65,13 +65,13 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label>CEP *</label>
-                  <input v-model="usuario.cep" type="number" class="form-control">
+                  <input v-model="usuario.cep" type="number" class="form-control" style="text-transform:uppercase;">
                 </div>
               </div>
               <div class="col-sm-12 col-md-8">
                 <div class="form-group">
                   <label>Complemento</label>
-                  <input v-model="usuario.complemento" type="text" maxlength="100" class="form-control">
+                  <input v-model="usuario.complemento" type="text" maxlength="100" class="form-control" style="text-transform:uppercase;">
                 </div>
               </div>
             </div>
@@ -79,20 +79,20 @@
               <div class="col-sm-9">
                 <div class="form-group">
                   <label>Cidade *</label>
-                  <input v-model="usuario.cidade" type="text" maxlength="100" class="form-control" placeholder="ex: Poxoréu">
+                  <input v-model="usuario.cidade" type="text" maxlength="100" class="form-control" placeholder="ex: Poxoréu" style="text-transform:uppercase;">
                 </div>
               </div>
               <div class="col-sm-3">
                 <div class="form-group">
                   <label>UF *</label>
-                  <input v-model="usuario.uf" type="text" maxlength="2" class="form-control" placeholder="ex: MT">
+                  <input v-model="usuario.uf" type="text" maxlength="2" class="form-control" placeholder="ex: MT" style="text-transform:uppercase;">
                 </div>
               </div>             
             </div> 
             <div v-show="cadastro">
               <div class="form-group">
                 <label>Telefone/Celular *</label>
-                <input v-model="usuario.telefone" type="text" maxlength="20" class="form-control">
+                <input v-model="usuario.telefone" type="text" maxlength="20" class="form-control" style="text-transform:uppercase;">
               </div>
             </div>
             <div class="form-group">
@@ -133,7 +133,7 @@ export default {
       cadastro: false,
       usuario: {}
     }
-  },
+  }, 
   methods: {
     Entrar() {
       let self = this;
@@ -166,10 +166,17 @@ export default {
           self.loading = false;
         });
       }
-      else {
+      else {      
+        
         if (this.ValidaUsuario()) {
           self.loading = true;
           firebase.auth().createUserWithEmailAndPassword(self.usuario.email, self.usuario.senha).then(function(user) {
+            self.usuario.bairro = self.usuario.bairro.toUpperCase()
+            self.usuario.campo = self.usuario.campo.toUpperCase()
+            self.usuario.cidade = self.usuario.cidade.toUpperCase()
+            self.usuario.logradouro = self.usuario.logradouro.toUpperCase()
+            self.usuario.nome = self.usuario.nome.toUpperCase()
+            self.usuario.uf = self.usuario.uf.toUpperCase()            
             firebase.database().ref("users").child(user.uid).set(self.usuario).then(function(users) {
               if (user) {
                 console.log(user)
@@ -201,8 +208,8 @@ export default {
       }
     },
     ValidaUsuario() {
-
       var retorno = true;
+      this.error = null;
 
       if (this.usuario.nome == null || this.usuario.nome == undefined) {
         this.error = "* Nome não informado. ";
@@ -213,8 +220,8 @@ export default {
         retorno = false;
       }
 
-      if (isNaN(new Date(this.usuario.nascimento).valueOf())) {
-        this.error = this.StringNotNull(this.error) + "* Data de nascimento inválida. ";
+      if (this.usuario.idade == null || this.usuario.idade == undefined) {
+        this.error = this.StringNotNull(this.error) + "* Idade inválida. ";
         retorno = false;
       }
 
@@ -247,7 +254,7 @@ export default {
         this.error = this.StringNotNull(this.error) + "* UF não informada. ";
         retorno = false;
       }
-      else if ("AC-AL-AP-AM-BA-CE-DF-ES-GO-MA-MT-MS-MG-PA-PB-PR-PE-PI-RJ-RN-RS-RO-RR-SC-SP-SE-TO".indexOf(this.usuario.uf) == -1) {
+      else if (this.usuario.uf.length != 2) {        
         this.error = this.StringNotNull(this.error) + "* UF inválida. ";
         retorno = false;
       }
@@ -290,5 +297,4 @@ export default {
 </script>
 
 <style lang="css">
-
 </style>
