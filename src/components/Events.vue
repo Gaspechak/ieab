@@ -27,7 +27,7 @@
             <button v-show="getStatus(item.users) == 'inscrito'" type="button" class="btn btn-success" @click="printEvent(item)">Imprimir confirmação</button>
           </div>
           <div class="text-center" style="margin-top: 8px;" v-show="getGerenciar() == true">
-            <button v-show="getGerenciar() == true" id="btn-gerenciar" type="button" class="btn btn-danger" @click="gerenciarEvento(item['.key'])">Gerenciar Evento</button>
+            <button v-show="getGerenciar() == true" id="btn-gerenciar" type="button" class="btn btn-danger" @click="gerenciarEvento(item)">Gerenciar Evento</button>
           </div>
         </div>
         <!-- Modal -->
@@ -74,20 +74,22 @@
       </div>
       <div class="row" style="margin-top: 10px;"> 
         <div class="card">
-          <div class="card-header">
+          <div class="card-header" style="margin-bottom: 25px;">
             Inscritos no Evento
           </div>
-          <div class="card-body" v-for="user in usersCadastrados">
-            <div class="card">
+          <div class="card-body" v-for="user in usersCadastradosOrderNome">
+            <div class="card" style="margin-top: -25px;">
               <div style="margin: 10px;">
                 <h6><b>Nome: </b> {{user.nome}}</h6>
+                <h6><b>Idade: </b> {{user.idade}}</h6> 
                 <h6><b>E-mail: </b> {{user.email}}</h6> 
-                <h6><b>E-mail: </b> {{user.cidade}} <b> UF: </b> {{user.uf}}</h6> 
+                <h6><b>Cidade: </b> {{user.cidade}} <b> UF: </b> {{user.uf}}</h6> 
+                <h6><b>Telefone: </b> {{user.telefone}}</h6> 
                 <h6><span class="badge badge-warning" v-show="!user.confirmado">Inscrição pendende...</span></h6>
                 <h6><span class="badge badge-success" v-show="user.confirmado">Inscrição confirmada</span></h6>
                 <div class="text-center">
-                  <button type="button" class="btn btn-success" v-show="!user.confirmado" @click="confirmarIncricao(user.eventID, user.userID)">Confirmar Inscrição!</button>
-                  <button type="button" class="btn btn-danger" v-show="user.confirmado" @click="cancelarIncricao(user.eventID, user.userID)">Cancelar Inscrição!</button>             
+                  <button type="button" class="btn btn-success" v-show="!user.confirmado" @click="confirmarIncricao(user.evento, user.userID)">Confirmar Inscrição!</button>
+                  <button type="button" class="btn btn-danger" v-show="user.confirmado" @click="cancelarIncricao(user.evento, user.userID)">Cancelar Inscrição!</button>                   
                 </div>
               </div>
             </div>
@@ -111,28 +113,41 @@ export default {
       usersCadastrados: [],
       eventPrint: {}
     }
+  }, 
+  computed: {
+  usersCadastradosOrderNome: function() {
+      function compare(a, b) {
+        if (a.nome < b.nome)
+          return -1;
+        if (a.nome > b.nome)
+          return 1;
+        return 0;
+      }
+
+      return this.usersCadastrados.sort(compare);
+    }
   },
   firebase: {
     events: db.ref('events')
   },
-  methods: {
+  methods: {    
     confirm: function(eventId) {
       const userUid = this.$root.user.uid
       this.$firebaseRefs.events.child(eventId).child("users").child(userUid).set(false)
     },
-    confirmarIncricao: function(eventId, userId) {
-      this.$firebaseRefs.events.child(eventId).child("users").child(userId).set(true)
-      this.gerenciarEvento(eventId)
+    confirmarIncricao: function(evento, userId) {
+      this.$firebaseRefs.events.child(evento['.key']).child("users").child(userId).set(true)
+      this.gerenciarEvento(evento)
+    },
+     cancelarIncricao: function(evento, userId) {
+      this.$firebaseRefs.events.child(evento['.key']).child("users").child(userId).set(false)
+      this.gerenciarEvento(evento)
     },
     printEvent: function(itemEvent)
     {
       this.imprimirComprovante = true
       this.eventPrint = itemEvent
-    },
-    cancelarIncricao: function(eventId, userId) {
-      this.$firebaseRefs.events.child(eventId).child("users").child(userId).set(false)
-      this.gerenciarEvento(eventId)
-    },
+    },   
     printConfirmacao: function() {
       window.print();
     },
@@ -160,24 +175,25 @@ export default {
           return 'disponivel'
       }
     },
-    gerenciarEvento: function(eventId) {
+    gerenciarEvento: function(evento) {
       this.listEventos = false
       this.usersCadastrados = new Array()
-      var self = this
-      db.ref('events').child(eventId).child("users").once("value", function(snapshot) {
+      var self = this     
+      db.ref('events').child(evento['.key']).child("users").once("value", function(snapshot) {
         snapshot.forEach(function(snapshotChild) {
           db.ref("users").child(snapshotChild.key).once('value', function(userSnapshot) {
             var userCadastrado = userSnapshot.val()
             userCadastrado['confirmado'] = snapshotChild.val()
-            userCadastrado['eventID'] = eventId
+            userCadastrado['evento'] = evento
             userCadastrado['userID'] = snapshotChild.key
             self.usersCadastrados.push(userCadastrado)
           })
         });
-      });
-    }
+      }); 
+    } 
   }
 }
+
 </script>
 
 <style lang="css">
@@ -189,7 +205,7 @@ export default {
   background-color: #343a40;
   font-family: sans-serif;
   font-weight: bold;
-  color: white;
+  color: white;  
 }
 
 #titulo {

@@ -133,7 +133,7 @@ export default {
       cadastro: false,
       usuario: {}
     }
-  }, 
+  },
   methods: {
     Entrar() {
       let self = this;
@@ -166,17 +166,19 @@ export default {
           self.loading = false;
         });
       }
-      else {      
-        
+      else {
         if (this.ValidaUsuario()) {
           self.loading = true;
           firebase.auth().createUserWithEmailAndPassword(self.usuario.email, self.usuario.senha).then(function(user) {
-            self.usuario.bairro = self.usuario.bairro.toUpperCase()
-            self.usuario.campo = self.usuario.campo.toUpperCase()
-            self.usuario.cidade = self.usuario.cidade.toUpperCase()
-            self.usuario.logradouro = self.usuario.logradouro.toUpperCase()
-            self.usuario.nome = self.usuario.nome.toUpperCase()
-            self.usuario.uf = self.usuario.uf.toUpperCase()            
+
+            self.usuario.bairro = self.ToUpper(self.usuario.bairro)
+            self.usuario.campo = self.ToUpper(self.usuario.campo)
+            self.usuario.cidade = self.ToUpper(self.usuario.cidade)
+            self.usuario.logradouro = self.ToUpper(self.usuario.logradouro)
+            self.usuario.nome = self.ToUpper(self.usuario.nome)
+            self.usuario.uf = self.ToUpper(self.usuario.uf)
+            delete self.usuario.senha
+
             firebase.database().ref("users").child(user.uid).set(self.usuario).then(function(users) {
               if (user) {
                 console.log(user)
@@ -200,8 +202,8 @@ export default {
             self.loading = false;
           });
         }
-        else {  
-          this.error = "Dados incorretos: " + this.error;   
+        else {
+          this.error = "Dados incorretos: " + this.error;
           document.body.scrollTop = 0; // For Chrome, Safari and Opera 
           document.documentElement.scrollTop = 0; // For IE and Firefox
         }
@@ -254,7 +256,7 @@ export default {
         this.error = this.StringNotNull(this.error) + "* UF não informada. ";
         retorno = false;
       }
-      else if (this.usuario.uf.length != 2) {        
+      else if (this.usuario.uf.length != 2) {
         this.error = this.StringNotNull(this.error) + "* UF inválida. ";
         retorno = false;
       }
@@ -291,10 +293,19 @@ export default {
       else {
         return "";
       }
+    },
+    ToUpper(value) {
+      if (value != null && value != undefined) {
+        return value.toUpperCase();
+      }
+      else {
+        return "";
+      }
     }
   }
 }
 </script>
 
 <style lang="css">
+
 </style>

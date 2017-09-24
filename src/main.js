@@ -14,7 +14,7 @@ new Vue({
   template: '<App/>',
   components: {
     App
-  },  
+  },
   beforeCreate: function () {
     var self = this
     firebase.auth().onAuthStateChanged(function (user) {
