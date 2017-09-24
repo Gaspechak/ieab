@@ -195,6 +195,10 @@ export default {
               else if (err.message == "The password must be 6 characters long or more.") {
                 self.error = "A senha deve ter 6 caracteres ou mais.";
               }
+              else if (err.message == "The email address is already in use by another account.")
+              {
+                self.error = "O endereço de e-mail já está sendo usado por outra conta.";
+              }
               else {
                 self.error = err.message;
               }
