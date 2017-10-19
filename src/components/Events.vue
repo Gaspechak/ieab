@@ -19,7 +19,7 @@
         </ul>
         <div class="card-body">
           <div class="text-center" style="margin-top: -8px;">
-            <h5><span class="badge badge-warning" v-show="getStatusEvent(item.users) == 'pendente'">Inscrição pendende...</span></h5>
+            <h5><span class="badge badge-warning" v-show="getStatusEvent(item.users) == 'pendente'">Inscrição pendente...</span></h5>
             <h5><span class="badge badge-success" v-show="getStatusEvent(item.users) == 'inscrito'">Inscrição confirmada</span></h5>
             <button v-show="getStatusEvent(item.users) == 'disponivel'" id="btn-inscrever" type="button" class="btn btn-primary"  data-toggle="modal" data-target="#confirmaInscricao">Inscrever-se</button>          
           </div>                   
@@ -27,7 +27,7 @@
             <button v-show="getStatusEvent(item.users) == 'inscrito'" type="button" class="btn btn-success" @click="printEvent(item)">Imprimir CHECK-IN</button>
           </div>
           <div class="text-center" v-show="getStatusEvent(item.users) == 'inscrito'" style="margin-top: 10px;">
-            <h5><span class="badge badge-warning" v-show="getStatusRefeicao(item.usersRefeicao) == 'pendente'">Confirmação da refeições pendende...</span></h5>
+            <h5><span class="badge badge-warning" v-show="getStatusRefeicao(item.usersRefeicao) == 'pendente'">Confirmação da refeições pendente...</span></h5>
             <h5><span class="badge badge-success" v-show="getStatusRefeicao(item.usersRefeicao) == 'inscrito'">Refeições confirmada</span></h5>
             <button v-show="getStatusRefeicao(item.usersRefeicao) == 'disponivel'" id="btn-inscreverRefeicao" type="button" class="btn btn-primary"  data-toggle="modal" data-target="#confirmaInscricaoRefeicao">Confirmar Refeições no Evento</button>          
           </div>   
@@ -113,8 +113,8 @@
                 <h6><b>E-mail: </b> {{user.email}}</h6> 
                 <h6><b>Cidade: </b> {{user.cidade}} <b> UF: </b> {{user.uf}}</h6> 
                 <h6><b>Telefone: </b> {{user.telefone}}</h6> 
-                <h6><span class="badge badge-warning" v-show="!user.refeicao">Refeições pendende...</span></h6>
-                <h6><span class="badge badge-success" v-show="user.refeicao">Refeições confirmada</span></h6>
+                <h6><span class="badge badge-warning" v-show="!user.refeicao">Refeições pendentes...</span></h6>
+                <h6><span class="badge badge-success" v-show="user.refeicao">Refeições confirmadas</span></h6>
                 <div class="text-center">
                   <button type="button" class="btn btn-success" v-show="!user.refeicao" @click="confirmarRefeicao(user.evento, user.userID)">Confirmar Refeições!</button>
                   <button type="button" class="btn btn-danger" v-show="user.refeicao" @click="cancelarRefeicao(user.evento, user.userID)">Cancelar Refeições!</button>                   
